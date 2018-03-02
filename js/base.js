@@ -36,10 +36,16 @@
                 }
                 catch (e) {
                     try {
+                        var img = new Image();
+                        img.onload = function () {
+                            ctx.drawImage(img, 0, 0,500,400);
+                        }
+
                         // Fallback if createObjectURL is not supported
                         var fileReader = new FileReader();
                         fileReader.onload = function (event) {
                             showPicture.src = event.target.result;
+                            img.src=event.target.result;
                         };
                         fileReader.readAsDataURL(file);
                     }
