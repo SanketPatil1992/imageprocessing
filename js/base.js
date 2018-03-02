@@ -1,12 +1,9 @@
 (function () {
     var takePicture = document.querySelector("#take-picture"),
         showPicture = document.querySelector("#show-picture");
-        canvasPicture=document.querySelector("#capturedPhoto");
+    canvasPicture = document.querySelector("#capturedPhoto");
     //get context
     var ctx = canvasPicture.getContext("2d");
-
-     //create image
-     var photo = new Image();
 
     if (takePicture && showPicture) {
         // Set events
@@ -27,23 +24,25 @@
                     showPicture.src = imgURL;
 
                     // Revoke ObjectURL after imagehas loaded
-                    showPicture.onload = function() {
-                        URL.revokeObjectURL(imgURL);  
+                    showPicture.onload = function () {
+                        URL.revokeObjectURL(imgURL);
                     };
-               
+
                 }
                 catch (e) {
                     try {
+                        var img = new Image();
+                        img.onload = function () {
+                            ctx.drawImage(img, 0, 0,500,400);
+                        }
+
                         // Fallback if createObjectURL is not supported
                         var fileReader = new FileReader();
                         fileReader.onload = function (event) {
                             showPicture.src = event.target.result;
-                            photo.src = event.target.result;
+                            img.src = event.target.result;
                         };
                         fileReader.readAsDataURL(file);
-
-                          //draw photo into canvas when ready
-               ctx.drawImage(photo, 0, 0, 500, 400);
                     }
                     catch (e) {
                         // Display error message
