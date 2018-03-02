@@ -1,10 +1,9 @@
 (function () {
     var takePicture = document.querySelector("#take-picture"),
         showPicture = document.querySelector("#show-picture");
-    canvasPicture = document.querySelector("#capturedPhoto");
+        canvasPicture = document.querySelector("#capturedPhoto");
     //get context
     var ctx = canvasPicture.getContext("2d");
-
     if (takePicture && showPicture) {
         // Set events
         takePicture.onchange = function (event) {
@@ -28,19 +27,19 @@
                         URL.revokeObjectURL(imgURL);
                     };
 
-                }
-                catch (e) {
-                    try {
-                        var img = new Image();
+                    var img = new Image();
                         img.onload = function () {
                             ctx.drawImage(img, 0, 0,500,400);
                         }
+                    img.src = imgURL;
 
+                }
+                catch (e) {
+                    try {
                         // Fallback if createObjectURL is not supported
                         var fileReader = new FileReader();
                         fileReader.onload = function (event) {
                             showPicture.src = event.target.result;
-                            img.src = event.target.result;
                         };
                         fileReader.readAsDataURL(file);
                     }
